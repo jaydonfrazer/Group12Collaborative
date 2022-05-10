@@ -4,17 +4,16 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "SpawnPoint.h"
-#include "SpawnPointManager.generated.h"
+#include "PressurePlate.generated.h"
 
 UCLASS()
-class GROUP12PROJECT_API ASpawnPointManager : public AActor
+class GROUP12PROJECT_API APressurePlate : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	ASpawnPointManager();
+	APressurePlate();
 
 protected:
 	// Called when the game starts or when spawned
@@ -24,11 +23,4 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	UFUNCTION(BlueprintCallable)
-	void ResetCheckPoints();
-
-private:
-
-	//An array that stores the amount of spawnpoints
-	TArray<ASpawnPoint*> Spawns;
 };

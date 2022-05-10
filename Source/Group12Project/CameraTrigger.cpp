@@ -19,6 +19,7 @@ ACameraTrigger::ACameraTrigger()
 	//Set as trigger
 	BoxTrigger->SetCollisionProfileName(TEXT("Trigger"));
 	BoxTrigger->OnComponentBeginOverlap.AddDynamic(this, &ACameraTrigger::OnOverlapBegin);
+	BoxTrigger->OnComponentEndOverlap.AddDynamic(this, &ACameraTrigger::OnOverlapEnd);
 
 }
 
@@ -73,7 +74,31 @@ void ACameraTrigger::OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, c
 				}
 			}
 
+			if (ProjectileSpawn)
+			{
+				ProjectileSpawn->IsActive = true;
+			}
 		}
 
+
+	}
+}
+
+void ACameraTrigger::OnOverlapEnd(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+{
+	if (OtherActor && (OtherActor != this) && OtherComp)
+	{
+		//Display debug message
+		GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Green, TEXT("Overlap end"));
+
+		APlayerCharacter* Player = Cast <APlayerCharacter>(OtherActor);
+		if (Player)
+		{
+
+			if (ProjectileSpawn)
+			{
+				ProjectileSpawn->IsActive = false;
+			}
+		}
 	}
 }

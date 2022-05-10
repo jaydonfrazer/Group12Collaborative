@@ -27,6 +27,15 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "BaseStats")
 	int Lives;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ammo")
+	int MaxBullets;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ammo")
+	int Bullets;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Ammo")
+	bool Reloading;
+
 	//Decal that projects to the cursor location
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Cursor")
 	class UDecalComponent* CursorToWorld;
@@ -74,6 +83,13 @@ public:
 
 	UFUNCTION()
 	void OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
+	//Bullets and Reloading
+
+	FTimerHandle TimerHandle;
+
+	UFUNCTION()
+	void ReloadAmmo();
 
 private:
 

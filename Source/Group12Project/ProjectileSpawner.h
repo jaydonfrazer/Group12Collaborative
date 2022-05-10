@@ -15,6 +15,9 @@ public:
 	// Sets default values for this actor's properties
 	AProjectileSpawner();
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Spawning")
+	bool IsActive;
+
 	UFUNCTION()
 	void ShootProjectile();
 

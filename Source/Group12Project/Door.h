@@ -4,23 +4,31 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "ProjectileSpawner.h"
-#include "CameraTrigger.generated.h"
+#include "Door.generated.h"
 
 UCLASS()
-class GROUP12PROJECT_API ACameraTrigger : public AActor
+class GROUP12PROJECT_API ADoor : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	ACameraTrigger();
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Base")
-	class UBoxComponent* BoxTrigger;
+	ADoor();
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Base")
-	bool ActiveOnStart = false;
+	bool Lock;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Base")
+	bool Open;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Base")
+	class UBoxComponent* TriggerComponent;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Base")
+	class UBoxComponent* BoxComponent;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Base")
+	class UStaticMeshComponent* SpawnMesh;
 
 protected:
 	// Called when the game starts or when spawned
@@ -35,11 +43,5 @@ public:
 
 	UFUNCTION()
 	void OnOverlapEnd(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
-
-	UPROPERTY(EditAnywhere)
-	AActor* Camera;
-
-	UPROPERTY(EditAnywhere)
-	AProjectileSpawner* ProjectileSpawn;
 
 };

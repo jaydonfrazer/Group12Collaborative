@@ -51,8 +51,8 @@ ABaseProjectile::ABaseProjectile()
 	ProjectileMeshComponent->SetRelativeLocation(FVector(0.0f, 0.0f, -12.5f));
 	ProjectileMeshComponent->SetupAttachment(CollisionComponent);
 
-	// Delete the projectile after 3 seconds.
-	InitialLifeSpan = 3.0f;
+	// Delete the projectile after 10 seconds.
+	InitialLifeSpan = 10.0f;
 }
 
 //Set the projectile Speed

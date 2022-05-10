@@ -16,12 +16,14 @@ AProjectileSpawner::AProjectileSpawner()
 	ProjectileMeshComponent->SetRelativeLocation(FVector(0.0f, 0.0f, -12.5f));
 	RootComponent = ProjectileMeshComponent;
 
+	IsActive = false;
+
 }
 
 //Set how frequently the blocks spawn
 float AProjectileSpawner::ProjectileSpawnFrequency()
 {
-	return 1.0f;
+	return ProjectileSpawnSpeed;
 }
 
 // Called when the game starts or when spawned
@@ -30,8 +32,8 @@ void AProjectileSpawner::BeginPlay()
 	Super::BeginPlay();
 
 	// Call a timer function to trigger the spawn
-	ProjectileSpawnSpeed = ProjectileSpawnFrequency();
-	GetWorldTimerManager().SetTimer(TimerHandle, this, &AProjectileSpawner::ShootProjectile, ProjectileSpawnSpeed, true, 0.5f);
+	//ProjectileSpawnSpeed = ProjectileSpawnFrequency();
+	GetWorldTimerManager().SetTimer(TimerHandle, this, &AProjectileSpawner::ShootProjectile, ProjectileSpawnFrequency(), true, 0.0f);
 }
 
 // Called every frame
@@ -44,7 +46,7 @@ void AProjectileSpawner::Tick(float DeltaTime)
 void AProjectileSpawner::ShootProjectile()
 {
 	//Attempt to fire our projectile
-	if (ProjectileToSpawn)
+	if (ProjectileToSpawn && IsActive)
 	{
 		// Get Spawner Transform
 		FVector Location;
@@ -65,9 +67,9 @@ void AProjectileSpawner::ShootProjectile()
 			// Spawn the projectile at the muzzle.
 			ABaseProjectile* Projectile = World->SpawnActor<ABaseProjectile>(ProjectileToSpawn, Location, Rotation, SpawnParams);
 
+			//Send a debug message to confirm the firing function is triggered
+			GEngine->AddOnScreenDebugMessage(-1, 0.5f, FColor::Red, TEXT("Spawner has fired!"));
+
 		}
 	}
-
-	//Send a debug message to confirm the firing function is triggered
-	GEngine->AddOnScreenDebugMessage(-1, 0.5f, FColor::Red, TEXT("Spawner has fired!"));
 }

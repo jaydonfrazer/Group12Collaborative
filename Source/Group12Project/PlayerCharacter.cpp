@@ -7,9 +7,14 @@
 #include "SpawnPoint.h"
 #include "Components/CapsuleComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "Kismet/KismetMathLibrary.h"
 #include "Containers/Array.h"
 #include "PlayerCharacter.h"
 #include "EngineUtils.h"
+#include "Engine/SkeletalMesh.h"
+#include "Components/BoxComponent.h"
+
+
 
 
 // Sets default values
@@ -22,6 +27,9 @@ APlayerCharacter::APlayerCharacter()
 	//Base Stats
 	Health = 6;
 	Lives = 2;
+	MaxBullets = 3;
+	Bullets = 3;
+	Reloading = false;
 
 	//Events
 	OnDestroyed.AddDynamic(this, &APlayerCharacter::MyDestroyed);
@@ -37,6 +45,8 @@ APlayerCharacter::APlayerCharacter()
 	CursorToWorld->DecalSize = FVector(16.0f, 32.0f, 32.0f);
 	CursorToWorld->SetRelativeRotation(FRotator(90.0f, 0.0f, 0.0f).Quaternion());
 
+	//auto CharacterMesh0 = FindComponentByClass<USkeletalMesh>();
+	//CharacterMesh0->SetUpAttachment(RotationComponent);
 }
 
 // Called when the game starts or when spawned
@@ -49,6 +59,9 @@ void APlayerCharacter::BeginPlay()
 	// Get the capsule component from our PlayerCharacter
 	auto CollisionCylinder = FindComponentByClass<UCapsuleComponent>();
 	CollisionCylinder->OnComponentBeginOverlap.AddDynamic(this, &APlayerCharacter::OnOverlapBegin);
+
+	// Get the mesh component
+	//auto CharacterMesh0 = FindComponentByClass<USkeletalMesh>();
 
 	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Red, TEXT("We are using PlayerCharacter."));
 }
@@ -85,6 +98,17 @@ void APlayerCharacter::Tick(float DeltaTime)
 			//Set our cursor location to what our hit result location is
 			CursorToWorld->SetWorldLocation(TraceHitResult.Location);
 			CursorToWorld->SetWorldRotation(CursorR);
+
+			//Make player look towards cursor location
+			FRotator LookAtCursor = UKismetMathLibrary::FindLookAtRotation(this->GetActorLocation(), TraceHitResult.Location);
+
+			// Get the mesh component
+			//auto CharacterMesh0 = FindComponentByClass<USkeletalMesh>();
+
+			auto CollisionCylinder = FindComponentByClass<UCapsuleComponent>();
+
+			//Rotate Player towards cursor
+			this->SetActorRelativeRotation(FRotator(GetActorRotation().Pitch, LookAtCursor.Yaw, GetActorRotation().Roll));
 		}
 	}
 
@@ -108,7 +132,7 @@ void APlayerCharacter::MoveForward(float Value)
 {
 	if (Value)
 	{
-		AddMovementInput(GetActorForwardVector(), Value);
+		AddMovementInput(FVector(1.0f, 0.0f, 0.0f), Value);
 	}
 }
 
@@ -116,7 +140,7 @@ void APlayerCharacter::MoveRight(float Value)
 {
 	if (Value)
 	{
-		AddMovementInput(GetActorRightVector(), Value);
+		AddMovementInput(FVector(0.0f, 1.0f, 0.0f), Value);
 	}
 }
 
@@ -158,7 +182,7 @@ void APlayerCharacter::Debug()
 	//SetActorLocation(SpawnPosition);
 
 	// Attempt to fire a projectile.
-	if (ProjectileClass)
+	if (ProjectileClass && Bullets > 0)
 	{
 
 		// Get Player transform.
@@ -167,11 +191,10 @@ void APlayerCharacter::Debug()
 		GetActorEyesViewPoint(PlayerLocation, PlayerRotation);
 
 		// Set MuzzleOffset to spawn projectiles slightly in front of the Player.
-		ProjectileOffset.Set(100.0f, 0.0f, 0.0f);
+		ProjectileOffset.Set(60.0f, 0.0f, 0.0f);
 
 		// Transform ProjectileOffset from camera space to world space.
-		FVector ProjectileLocation = PlayerLocation + FTransform(PlayerRotation).TransformVector(ProjectileOffset);
-		FRotator ProjectileRotation = PlayerRotation;
+		FVector ProjectileLocation = PlayerLocation + FTransform(this->GetActorRotation()).TransformVector(ProjectileOffset);
 
 		UWorld* World = GetWorld();
 		if (World)
@@ -181,10 +204,26 @@ void APlayerCharacter::Debug()
 			SpawnParams.Instigator = GetInstigator();
 
 			// Spawn the projectile at the muzzle.
-			ABaseProjectile* Projectile = World->SpawnActor<ABaseProjectile>(ProjectileClass, ProjectileLocation, ProjectileRotation, SpawnParams);
+			ABaseProjectile* Projectile = World->SpawnActor<ABaseProjectile>(ProjectileClass, ProjectileLocation, this->GetActorRotation(), SpawnParams);
+
+			Bullets--;
+			if (Reloading == false)
+			{
+				GetWorldTimerManager().SetTimer(TimerHandle, this, &APlayerCharacter::ReloadAmmo, 0.5f, false, 1.0f);
+				Reloading = true;
+
+			}
+
 		}
 
 	}
+}
+
+void APlayerCharacter::ReloadAmmo()
+{
+	GEngine->AddOnScreenDebugMessage(-1, 0.5f, FColor::Green, TEXT("Bullet Restocked!"));
+	Bullets = MaxBullets;
+	Reloading = false;
 }
 
 void APlayerCharacter::RestartPlayer()

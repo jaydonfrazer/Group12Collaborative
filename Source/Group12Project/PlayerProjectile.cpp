@@ -8,7 +8,7 @@ APlayerProjectile::APlayerProjectile()
 {
 	//Set Variables
 	Damage = 3;
-	Speed = 600.f;
+	Speed = 800.f;
 	Size = 20.f;
 	HarmEnemy = true;
 
