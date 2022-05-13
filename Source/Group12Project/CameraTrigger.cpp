@@ -56,7 +56,7 @@ void ACameraTrigger::OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, c
 		check(GEngine != nullptr);
 
 		//Display debug message
-		GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Yellow, TEXT("Overlap event triggered"));
+		GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, TEXT("Room Entered"));
 
 		const float SmoothBlendTime = 0.50f;
 
@@ -89,7 +89,7 @@ void ACameraTrigger::OnOverlapEnd(class UPrimitiveComponent* OverlappedComp, cla
 	if (OtherActor && (OtherActor != this) && OtherComp)
 	{
 		//Display debug message
-		GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::Green, TEXT("Overlap end"));
+		GEngine->AddOnScreenDebugMessage(-1, 1.0f, FColor::White, TEXT("Room Left"));
 
 		APlayerCharacter* Player = Cast <APlayerCharacter>(OtherActor);
 		if (Player)

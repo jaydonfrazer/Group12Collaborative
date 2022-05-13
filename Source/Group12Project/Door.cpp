@@ -14,6 +14,7 @@ ADoor::ADoor()
 	//Variables
 	Open = false;
 	Lock = false;
+	LockAmount = 0;
 
 	//Create collision body
 	BoxComponent = CreateDefaultSubobject<UBoxComponent>("BoxComponent");
@@ -48,13 +49,22 @@ void ADoor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	if (LockAmount > 0)
+	{
+		Lock = true;
+	}
+	else
+	{
+		Lock = false;
+	}
+
 	if (Open == true)
 	{
 		BoxComponent->SetCollisionProfileName(TEXT("NoCollision"));
 	}
 	else
 	{
-		BoxComponent->SetCollisionProfileName(TEXT("WorldStatic"));
+		BoxComponent->SetCollisionProfileName(TEXT("BlockAll"));
 	}
 
 }

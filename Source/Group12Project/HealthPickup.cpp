@@ -10,7 +10,7 @@ void AHealthPickup::OnOverlapBegin(UPrimitiveComponent* OverlappedComponent, AAc
 	if (OtherActor)
 	{
 		APlayerCharacter* Player = Cast<APlayerCharacter>(OtherActor);
-		if (Player)
+		if (Player && Player->Health<4)
 		{
 			Player->Health += 1;
 			Destroy();

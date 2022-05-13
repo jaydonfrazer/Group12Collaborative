@@ -16,6 +16,9 @@ public:
 	ADoor();
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Base")
+	int LockAmount;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Base")
 	bool Lock;
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Base")

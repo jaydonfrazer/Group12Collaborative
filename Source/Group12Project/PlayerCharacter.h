@@ -25,6 +25,9 @@ public:
 	int Health;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "BaseStats")
+	int MaxHealth;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "BaseStats")
 	int Lives;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ammo")

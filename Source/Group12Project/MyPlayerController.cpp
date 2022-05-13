@@ -46,7 +46,7 @@ void AMyPlayerController::OnAttackPressed()
 	}
 
 	// Debug //
-	//GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Cyan, TEXT("Attack is pressed"));
+	GEngine->AddOnScreenDebugMessage(-1, 0.5f, FColor::Cyan, TEXT("Attack is pressed"));
 }
 
 void AMyPlayerController::OnAttackReleased()

@@ -1,7 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
+#include "MovingBlock.h"
 #include "PlayerProjectile.h"
+#include "MovingBlockComponent.h"
 
 //Constructor
 APlayerProjectile::APlayerProjectile()
@@ -35,4 +36,36 @@ float APlayerProjectile::ProjectileSize()
 int APlayerProjectile::DamageAmount()
 {
 	return Damage;
+}
+
+void APlayerProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit)
+{
+	if (OtherActor != this && OtherComponent->IsSimulatingPhysics())
+	{
+		OtherComponent->AddImpulseAtLocation(ProjectileMovementComponent->Velocity * 100.0f, Hit.ImpactPoint);
+	}
+	AMovingBlock* MovingBlock = Cast<AMovingBlock>(OtherActor);
+	if (MovingBlock && OtherComponent)
+	{
+		if (GEngine) GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Green, FString::Printf(TEXT("Projectile Hit: %s"), *OtherComponent->GetName()));
+
+		if (OtherComponent->GetName() == "TriggerPluX")
+		{
+			MovingBlock->SlidingTo = FVector(-1.0f, 0.0f, 0.0f);
+		}
+		else if (OtherComponent->GetName() == "TriggerPluY")
+		{
+			MovingBlock->SlidingTo = FVector(0.0f, -1.0f, 0.0f);
+		}
+		else if (OtherComponent->GetName() == "TriggerMinX")
+		{
+			MovingBlock->SlidingTo = FVector(1.0f, 0.0f, 0.0f);
+		}
+		else if (OtherComponent->GetName() == "TriggerMinY")
+		{
+			MovingBlock->SlidingTo = FVector(0.0f, 1.0f, 0.0f);
+		}
+	}
+
+	Destroy();
 }

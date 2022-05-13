@@ -25,10 +25,11 @@ APlayerCharacter::APlayerCharacter()
 	PrimaryActorTick.bStartWithTickEnabled = true;
 
 	//Base Stats
-	Health = 6;
+	MaxHealth = 4;
+	Health = MaxHealth;
 	Lives = 2;
 	MaxBullets = 3;
-	Bullets = 3;
+	Bullets = MaxBullets;
 	Reloading = false;
 
 	//Events
@@ -44,9 +45,6 @@ APlayerCharacter::APlayerCharacter()
 	}
 	CursorToWorld->DecalSize = FVector(16.0f, 32.0f, 32.0f);
 	CursorToWorld->SetRelativeRotation(FRotator(90.0f, 0.0f, 0.0f).Quaternion());
-
-	//auto CharacterMesh0 = FindComponentByClass<USkeletalMesh>();
-	//CharacterMesh0->SetUpAttachment(RotationComponent);
 }
 
 // Called when the game starts or when spawned
@@ -98,14 +96,10 @@ void APlayerCharacter::Tick(float DeltaTime)
 			//Set our cursor location to what our hit result location is
 			CursorToWorld->SetWorldLocation(TraceHitResult.Location);
 			CursorToWorld->SetWorldRotation(CursorR);
+			CursorToWorld->SetAbsolute(true, true);
 
 			//Make player look towards cursor location
 			FRotator LookAtCursor = UKismetMathLibrary::FindLookAtRotation(this->GetActorLocation(), TraceHitResult.Location);
-
-			// Get the mesh component
-			//auto CharacterMesh0 = FindComponentByClass<USkeletalMesh>();
-
-			auto CollisionCylinder = FindComponentByClass<UCapsuleComponent>();
 
 			//Rotate Player towards cursor
 			this->SetActorRelativeRotation(FRotator(GetActorRotation().Pitch, LookAtCursor.Yaw, GetActorRotation().Roll));
@@ -230,7 +224,7 @@ void APlayerCharacter::RestartPlayer()
 {
 	//Lose life
 	Lives -= 1;
-	Health = 2;
+	Health = 4;
 	SetActorLocation(SpawnPosition);
 
 	GEngine->AddOnScreenDebugMessage(-1, 0.5f, FColor::Yellow, FString::Printf(TEXT("Lives Remaining: %d"), Lives));
