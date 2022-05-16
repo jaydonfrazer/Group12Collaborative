@@ -65,6 +65,8 @@ void APlayerProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherAc
 		{
 			MovingBlock->SlidingTo = FVector(0.0f, 1.0f, 0.0f);
 		}
+
+		MovingBlock->TimerSet(0.4f, 0.5f);
 	}
 
 	Destroy();

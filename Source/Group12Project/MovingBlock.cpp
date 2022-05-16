@@ -18,6 +18,8 @@ AMovingBlock::AMovingBlock()
 		RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("MovingBlockComponent"));
 	}
 
+	SlidingAcceler = 0.2;
+
 	if (!BaseBlock)
 	{
 		// Create collision body
@@ -92,12 +94,9 @@ void AMovingBlock::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	//if (MovementComp->HitDetected == true)
-	//{
-	//	SlidingTo = FVector(0.f, 0.f, 0.f);
-	//}
+	FVector SlidingSpeed(SlidingTo * SlidingAcceler);
 
-	AddMovementInput(FVector(SlidingTo));
+	AddMovementInput(FVector(SlidingSpeed));
 
 
 }
@@ -107,4 +106,20 @@ void AMovingBlock::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+}
+
+void AMovingBlock::TimerSet(float ShootForce, float SlideTime)
+{
+	//Increase acceleration from how many times player has shot movingblock, increase time as well
+	SlidingAcceler += ShootForce;
+	SlidingTime += SlideTime;
+	GetWorldTimerManager().SetTimer(TimerHandle, this, &AMovingBlock::StopFVector, 0.5f, false, SlidingTime);
+}
+
+void AMovingBlock::StopFVector()
+{
+	//Stop sliding and set acceleration to 0
+	SlidingTo = FVector(0.f, 0.f, 0.f);
+	SlidingAcceler = 0.f;
+	SlidingTime = 0.f;
 }

@@ -78,6 +78,10 @@ void ACameraTrigger::OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, c
 			{
 				ProjectileSpawn->IsActive = true;
 			}
+			if (Enemy)
+			{
+				Enemy->isActive = true;
+			}
 		}
 
 
@@ -98,6 +102,10 @@ void ACameraTrigger::OnOverlapEnd(class UPrimitiveComponent* OverlappedComp, cla
 			if (ProjectileSpawn)
 			{
 				ProjectileSpawn->IsActive = false;
+			}
+			if (Enemy)
+			{
+				Enemy->isActive = false;
 			}
 		}
 	}

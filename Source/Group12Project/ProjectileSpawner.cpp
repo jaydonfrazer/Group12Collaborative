@@ -20,7 +20,7 @@ AProjectileSpawner::AProjectileSpawner()
 
 }
 
-//Set how frequently the blocks spawn
+//Set how frequently the projectiles spawn
 float AProjectileSpawner::ProjectileSpawnFrequency()
 {
 	return ProjectileSpawnSpeed;

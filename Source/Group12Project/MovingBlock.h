@@ -37,6 +37,12 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "BaseStats")
 	FVector SlidingTo = FVector(0.f, 0.f, 0.f);
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "BaseStats")
+	float SlidingAcceler = 0.0f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "BaseStats")
+	float SlidingTime = 0.0f;
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -50,5 +56,11 @@ public:
 
 	UPROPERTY()
 	class UMovingBlockComponent* MovementComp;
+
+	//Timer for resetting FVector
+	FTimerHandle TimerHandle;
+	void TimerSet(float ShootForce, float SlideTime);
+
+	void StopFVector();
 
 };
