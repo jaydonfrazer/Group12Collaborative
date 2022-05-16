@@ -14,7 +14,7 @@ void UMovingBlockComponent::TickComponent(float DeltaTime, enum ELevelTick TickT
     }
 
     // Get (and then clear) the movement vector that we set in UMovingBlockComponent::Tick
-    FVector DesiredMovementThisFrame = ConsumeInputVector().GetClampedToMaxSize(1.0f) * DeltaTime * 150.0f;
+    FVector DesiredMovementThisFrame = ConsumeInputVector().GetClampedToMaxSize(1.0f) * DeltaTime * 400.0f;
     if (!DesiredMovementThisFrame.IsNearlyZero())
     {
         FHitResult Hit;

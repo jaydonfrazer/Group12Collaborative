@@ -3,25 +3,21 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Kismet/GameplayStatics.h"
 #include "GameFramework/Actor.h"
-#include "ProjectileSpawner.h"
-#include "BasePawnEnemy.h"
-#include "CameraTrigger.generated.h"
+#include "LevelTransition.generated.h"
 
 UCLASS()
-class GROUP12PROJECT_API ACameraTrigger : public AActor
+class GROUP12PROJECT_API ALevelTransition : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	ACameraTrigger();
+	ALevelTransition();
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Base")
 	class UBoxComponent* BoxTrigger;
-
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "Base")
-	bool ActiveOnStart = false;
 
 protected:
 	// Called when the game starts or when spawned
@@ -34,15 +30,7 @@ public:
 	UFUNCTION()
 	void OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
-	UFUNCTION()
-	void OnOverlapEnd(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+	//Array of level names to transition to
+	TArray<FString> Levels;
 
-	UPROPERTY(EditAnywhere)
-	AActor* Camera;
-
-	UPROPERTY(EditAnywhere)
-	AProjectileSpawner* ProjectileSpawn;
-
-	UPROPERTY(EditAnywhere)
-	ABasePawnEnemy* Enemy;
 };
