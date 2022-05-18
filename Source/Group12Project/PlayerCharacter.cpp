@@ -76,7 +76,7 @@ void APlayerCharacter::Tick(float DeltaTime)
 
 	if (Lives <= 0)
 	{
-		Destroy();
+		//Destroy();
 	}
 
 	//Set cursor location to player controller mouse
