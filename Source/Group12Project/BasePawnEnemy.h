@@ -52,7 +52,7 @@ public:
 	UStaticMeshComponent* CapsuleMeshComponent;
 
 	//Projectile spawning
-	UPROPERTY(EditDefaultsOnly, Category = "Spawning")
+	UPROPERTY(EditAnywhere, Category = "Spawning")
 	TSubclassOf<class ABaseProjectile> ProjectileToSpawn;
 
 	//Overlap begin

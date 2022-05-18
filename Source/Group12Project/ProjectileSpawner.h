@@ -21,6 +21,9 @@ public:
 	UFUNCTION()
 	void ShootProjectile();
 
+	UFUNCTION()
+	void ActivateShooting();
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Spawning")
 	float ProjectileSpawnSpeed;
 
@@ -29,7 +32,7 @@ public:
 	FVector SpawnOffset;
 
 	//Spawner spawning
-	UPROPERTY(EditDefaultsOnly, Category = "Spawning")
+	UPROPERTY(EditAnywhere, Category = "Spawning")
 	TSubclassOf<class ABaseProjectile> ProjectileToSpawn;
 
 	//Spawner mesh component

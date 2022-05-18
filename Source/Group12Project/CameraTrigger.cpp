@@ -77,6 +77,7 @@ void ACameraTrigger::OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, c
 			if (ProjectileSpawn)
 			{
 				ProjectileSpawn->IsActive = true;
+				ProjectileSpawn->ActivateShooting();
 			}
 			if (Enemy)
 			{

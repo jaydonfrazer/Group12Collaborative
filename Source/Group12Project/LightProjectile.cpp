@@ -11,8 +11,8 @@ ALightProjectile::ALightProjectile()
 
 	//Set Variables
 	Damage = 1;
-	Speed = 600.f;
-	Size = 7.5f;
+	Speed = 450.f;
+	Size = 12.5f;
 
 	//Set the sphere's collision radius
 	CollisionComponent->InitSphereRadius(ProjectileSize());
@@ -26,7 +26,7 @@ ALightProjectile::ALightProjectile()
 
 	//Set Mesh
 	ProjectileMeshComponent->SetRelativeScale3D(FVector(MeshSize, MeshSize, MeshSize));
-	ProjectileMeshComponent->SetRelativeLocation(FVector(0.0f, 0.0f, -6.25f));
+	ProjectileMeshComponent->SetRelativeLocation(FVector(0.0f, 0.0f, -10.00f));
 
 }
 
