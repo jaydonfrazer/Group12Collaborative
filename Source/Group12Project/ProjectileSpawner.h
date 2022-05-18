@@ -18,8 +18,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Spawning")
 	bool IsActive;
 
-	UFUNCTION()
-	void ShootProjectile();
+	//UFUNCTION()
+	//virtual void ShootProjectile();
 
 	UFUNCTION()
 	void ActivateShooting();
@@ -42,6 +42,9 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+	UFUNCTION()
+	virtual void ShootProjectile();
 
 	virtual float ProjectileSpawnFrequency();
 

@@ -34,10 +34,6 @@ void ALightProjectile::BeginPlay()
 {
 	Super::BeginPlay();
 
-	////Debug purposes
-	// 
-	GEngine->AddOnScreenDebugMessage(-1, 0.5f, FColor::Yellow, FString::Printf(TEXT("ProjectileSpeed: %f"), ProjectileSpeed()));
-
 }
 
 //Set the projectile Speed
