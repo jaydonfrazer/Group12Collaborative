@@ -18,8 +18,11 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Spawning")
 	bool IsActive;
 
+	//UFUNCTION()
+	//virtual void ShootProjectile();
+
 	UFUNCTION()
-	void ShootProjectile();
+	void ActivateShooting();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Spawning")
 	float ProjectileSpawnSpeed;
@@ -29,7 +32,7 @@ public:
 	FVector SpawnOffset;
 
 	//Spawner spawning
-	UPROPERTY(EditDefaultsOnly, Category = "Spawning")
+	UPROPERTY(EditAnywhere, Category = "Spawning")
 	TSubclassOf<class ABaseProjectile> ProjectileToSpawn;
 
 	//Spawner mesh component
@@ -39,6 +42,9 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+	UFUNCTION()
+	virtual void ShootProjectile();
 
 	virtual float ProjectileSpawnFrequency();
 

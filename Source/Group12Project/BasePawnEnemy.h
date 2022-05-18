@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "PlayerCharacter.h"
+#include "Door.h"
 #include "GameFramework/Pawn.h"
 #include "Components/CapsuleComponent.h"
 #include "BasePawnEnemy.generated.h"
@@ -52,12 +53,16 @@ public:
 	UStaticMeshComponent* CapsuleMeshComponent;
 
 	//Projectile spawning
-	UPROPERTY(EditDefaultsOnly, Category = "Spawning")
+	UPROPERTY(EditAnywhere, Category = "Spawning")
 	TSubclassOf<class ABaseProjectile> ProjectileToSpawn;
 
 	//Overlap begin
 	UFUNCTION()
 	void OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
+	//Reference to door
+	UPROPERTY(EditAnywhere)
+	ADoor* Door;
 
 	//Reference to player
 	APlayerCharacter* Player;

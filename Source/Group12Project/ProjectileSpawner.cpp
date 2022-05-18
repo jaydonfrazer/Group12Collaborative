@@ -31,9 +31,6 @@ void AProjectileSpawner::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// Call a timer function to trigger the spawn
-	//ProjectileSpawnSpeed = ProjectileSpawnFrequency();
-	GetWorldTimerManager().SetTimer(TimerHandle, this, &AProjectileSpawner::ShootProjectile, ProjectileSpawnFrequency(), true, 0.0f);
 }
 
 // Called every frame
@@ -41,6 +38,12 @@ void AProjectileSpawner::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
+
+void AProjectileSpawner::ActivateShooting()
+{
+	// Call a timer function to trigger from overlap
+	GetWorldTimerManager().SetTimer(TimerHandle, this, &AProjectileSpawner::ShootProjectile, ProjectileSpawnFrequency(), true, 0.0f);
 }
 
 void AProjectileSpawner::ShootProjectile()
