@@ -61,6 +61,10 @@ void ABasePawnEnemy::Tick(float DeltaTime)
 
 	if (Health <= 0)
 	{
+		if (Door)
+		{
+			Door->LockAmount--;
+		}
 		Destroy();
 	}
 	if (isActive == true)
