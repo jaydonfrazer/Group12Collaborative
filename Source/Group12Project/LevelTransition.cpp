@@ -24,7 +24,7 @@ ALevelTransition::ALevelTransition()
 	Levels.Add("MainMenu"); // Map 0
 	Levels.Add("Level01"); // Map 1
 	Levels.Add("Level02"); // Map 2
-	Levels.Add("Level03"); // Map 3
+	Levels.Add("LevelBOSS"); // Map 3
 }
 
 // Called when the game starts or when spawned
